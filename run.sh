@@ -17,7 +17,7 @@
 set -e
 set -x
 
-virtualenv -p python3 env
+/home/kywong/.local/bin/virtualenv -p python3 env
 source env/bin/activate
 
 pip install -r rigl/requirements.txt
