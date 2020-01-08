@@ -39,7 +39,7 @@ def format_tensors(*dicts):
   """
   merged_summaries = {}
   for d in dicts:
-    for metric_name, value in d.iteritems():
+    for metric_name, value in d.items():
       shape = value.shape.as_list()
       if metric_name.startswith(IMG_SUMMARY_PREFIX):
         # If image, shape it into 2d.
@@ -69,7 +69,7 @@ def host_call_fn(model_dir, **kwargs):
   gs = kwargs.pop('global_step')[0]
   with summary.create_file_writer(model_dir).as_default():
     with summary.always_record_summaries():
-      for name, tensor in kwargs.iteritems():
+      for name, tensor in kwargs.items():
         if name.startswith(IMG_SUMMARY_PREFIX):
           summary.image(name.replace(IMG_SUMMARY_PREFIX, ''), tensor,
                         max_images=1)

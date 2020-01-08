@@ -1,3 +1,9 @@
+.vscode/
+checkpoint
+imgs/
+*.pyc
 google_research/
 env/
-rigl/__pycache__/
+rigl/__pycache__/*
+rigl/tpu_dependencies/__pycache__/
+*saves/

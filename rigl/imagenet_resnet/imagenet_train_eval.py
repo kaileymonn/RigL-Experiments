@@ -34,7 +34,8 @@ from rigl.imagenet_resnet import mobilenetv2_model
 from rigl.imagenet_resnet import resnet_model
 from rigl.imagenet_resnet import utils
 import tensorflow as tf
-from officialresnet import imagenet_input
+# from officialresnet import imagenet_input
+from rigl.tpu_dependencies import imagenet_input
 from tensorflow.contrib import estimator as contrib_estimator
 from tensorflow.contrib import tpu as contrib_tpu
 from tensorflow.contrib.model_pruning.python import pruning
@@ -155,7 +156,7 @@ flags.DEFINE_integer(
     default=8,
     help=('Number of TPU cores. For a single TPU device, this is 8 because each'
           ' TPU has 4 chips each with 2 cores.'))
-flags.DEFINE_string('output_dir', '/tmp/imagenet/',
+flags.DEFINE_string('output_dir', 'imagenet_saves',
                     'Directory where to write event logs and checkpoint.')
 flags.DEFINE_bool('use_folder_stub', True,
                   'If True the output_dir is extended with some parameters.')

@@ -17,8 +17,8 @@
 set -e
 set -x
 
-/home/kywong/.local/bin/virtualenv -p python3 env
-source env/bin/activate
+virtualenv -p python env
+source env/Scripts/activate
 
 pip install -r rigl/requirements.txt
 python -m rigl.sparse_optimizers_test
