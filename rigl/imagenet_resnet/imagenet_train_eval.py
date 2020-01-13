@@ -733,8 +733,9 @@ def main(argv):
       model_dir=output_dir,
       save_checkpoints_steps=FLAGS.steps_per_checkpoint,
       keep_checkpoint_max=FLAGS.keep_checkpoint_max,
-      session_config=tf.ConfigProto(
-          allow_soft_placement=True, log_device_placement=False),
+      session_config=tf.ConfigProto(allow_soft_placement=True, 
+                                    log_device_placement=False,
+                                    gpu_options=tf.GPUOptions(allow_growth=True)),
       tpu_config=tpu_config.TPUConfig(
           iterations_per_loop=FLAGS.iterations_per_loop,
           num_shards=FLAGS.num_cores,
