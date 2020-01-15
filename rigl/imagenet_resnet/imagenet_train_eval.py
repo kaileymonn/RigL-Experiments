@@ -777,7 +777,7 @@ def main(argv):
     for ckpt in evaluation.checkpoints_iterator(output_dir):
       tf.logging.info('Starting to evaluate.')
       try:
-        dataset = imagenet_train if FLAGS.eval_on_train else imagenet_eval
+        dataset = imagenet_train if FLAGS.eval_on_train else imagenet_eval       
         classifier.evaluate(
             input_fn=dataset.input_fn,
             steps=eval_steps,
@@ -819,4 +819,5 @@ def main(argv):
 
 
 if __name__ == '__main__':
-  app.run(main)
+  with tf.device('/device:GPU:1'):
+    app.run(main)
