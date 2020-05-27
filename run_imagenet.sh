@@ -13,7 +13,8 @@
 # 50 training epochs, batch_size 50 => 1281167 training steps
 export PYTHONPATH=$PYTHONPATH:$PWD
 
-python rigl/imagenet_resnet/imagenet_train_eval.py --output_dir imagenet_mobilenetv1_saves \
+python3 rigl/imagenet_resnet/imagenet_train_eval.py 
+    --output_dir imagenet_mobilenetv1_saves \
     --model_architecture mobilenet_v1 \
     --training_method rigl \
     --mask_init_method erdos_renyi \
@@ -24,4 +25,4 @@ python rigl/imagenet_resnet/imagenet_train_eval.py --output_dir imagenet_mobilen
     --train_batch_size 50 \
     --eval_batch_size 50 \
     --num_parallel_calls 6 \
-    --num_cores 4 
+    --num_cores 4
