@@ -692,13 +692,14 @@ def main(argv):
     tf.set_random_seed(FLAGS.seed)
     set_lr_schedule()
     set_custom_sparsity_map()
-    folder_stub = os.path.join(FLAGS.training_method, str(FLAGS.end_sparsity),
-                                str(FLAGS.maskupdate_begin_step),
-                                str(FLAGS.maskupdate_end_step),
-                                str(FLAGS.maskupdate_frequency),
-                                str(FLAGS.drop_fraction),
-                                str(FLAGS.label_smoothing),
-                                str(FLAGS.weight_decay))
+    folder_stub = os.path.join(FLAGS.training_method, 
+                               str(FLAGS.end_sparsity),
+                               str(FLAGS.maskupdate_begin_step),
+                               str(FLAGS.maskupdate_end_step),
+                               str(FLAGS.maskupdate_frequency),
+                               str(FLAGS.drop_fraction),
+                               str(FLAGS.label_smoothing),
+                               str(FLAGS.weight_decay))
 
     output_dir = FLAGS.output_dir
     if FLAGS.use_folder_stub:
@@ -713,9 +714,12 @@ def main(argv):
     params['use_tpu'] = FLAGS.use_tpu
 
     dataset_func = functools.partial(
-        imagenet_input.ImageNetInput, data_dir=FLAGS.data_directory,
-        transpose_input=False, num_parallel_calls=FLAGS.num_parallel_calls,
+        imagenet_input.ImageNetInput, 
+        data_dir=FLAGS.data_directory,
+        transpose_input=False, 
+        num_parallel_calls=FLAGS.num_parallel_calls,
         use_bfloat16=False)
+
     imagenet_train, imagenet_eval = [dataset_func(is_training=is_training)
                                     for is_training in [True, False]]
 
