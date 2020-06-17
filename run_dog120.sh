@@ -11,7 +11,8 @@ export PYTHONPATH=$PYTHONPATH:$PWD
 
 # 16437 training images
 # 50 epochs at batch size 50 => 16437 training steps 
-python rigl/imagenet_resnet/imagenet_train_eval.py --output_dir dog120_mobilenetv1_saves \
+python rigl/imagenet_resnet/imagenet_train_eval.py 
+    --output_dir dog120_mobilenetv1_saves \
     --model_architecture mobilenet_v1 \
     --training_method rigl \
     --mask_init_method erdos_renyi \

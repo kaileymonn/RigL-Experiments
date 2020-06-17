@@ -1,0 +1,48 @@
+### imagenet mobilenet_v1 => end_sparsity: 0.8, train_steps: 500400 (50 epochs @ batch_size=128) ###
+Step 202160: cross_loss = 3.1278355, eval_accuracy = 0.4766, global_step = 202160, loss = 3.5864952, reg_loss = 0.458658, top_5_eval_accuracy = 0.74112
+Step 212168: cross_loss = 3.1113741, eval_accuracy = 0.48136, global_step = 212168, loss = 3.5706637, reg_loss = 0.45929036, top_5_eval_accuracy = 0.74624
+Step 222176: cross_loss = 3.1059864, eval_accuracy = 0.48278, global_step = 222176, loss = 3.566184, reg_loss = 0.46019566, top_5_eval_accuracy = 0.745
+Step 232184: cross_loss = 3.1214545, eval_accuracy = 0.48046, global_step = 232184, loss = 3.5825467, reg_loss = 0.4610934, top_5_eval_accuracy = 0.74048
+Step ...
+Step 312248: cross_loss = 3.1090815, eval_accuracy = 0.48132, global_step = 312248, loss = 3.5762522, reg_loss = 0.4671732, top_5_eval_accuracy = 0.74434
+Step 332264: cross_loss = 3.0648816, eval_accuracy = 0.4917, global_step = 332264, loss = 3.5333693, reg_loss = 0.46848336, top_5_eval_accuracy = 0.75242
+Step 342272: cross_loss = 3.065873, eval_accuracy = 0.48908, global_step = 342272, loss = 3.5341194, reg_loss = 0.4682473, top_5_eval_accuracy = 0.75416
+Step 360280: cross_loss = 3.0504282, eval_accuracy = 0.49328, global_step = 360280, loss = 3.5197103, reg_loss = 0.469279, top_5_eval_accuracy = 0.75644
+Step 370288: cross_loss = 3.0509388, eval_accuracy = 0.4921, global_step = 370288, loss = 3.5211353, reg_loss = 0.47019565, top_5_eval_accuracy = 0.75536
+Step 400312: cross_loss = 3.038285, eval_accuracy = 0.49566, global_step = 400312, loss = 3.5091245, reg_loss = 0.4708395, top_5_eval_accuracy = 0.7585
+Step 450352: cross_loss = 2.6337974, eval_accuracy = 0.59906, global_step = 450352, loss = 2.9648013, reg_loss = 0.33100557, top_5_eval_accuracy = 0.82982
+Step 470368: cross_loss = 2.6201725, eval_accuracy = 0.603, global_step = 470368, loss = 2.9170542, reg_loss = 0.29688475, top_5_eval_accuracy = 0.83106
+Step 480376: cross_loss = 2.619233, eval_accuracy = 0.6021, global_step = 480376, loss = 2.9025192, reg_loss = 0.28328872, top_5_eval_accuracy = 0.8328
+Step 490384: cross_loss = 2.6221027, eval_accuracy = 0.60316, global_step = 490384, loss = 2.8937528, reg_loss = 0.27165022, top_5_eval_accuracy = 0.83064
+Step 500392: cross_loss = 2.6213152, eval_accuracy = 0.6026, global_step = 500392, loss = 2.8830462, reg_loss = 0.26173154, top_5_eval_accuracy = 0.83164
+Step 510400: cross_loss = 2.6233485, eval_accuracy = 0.60202, global_step = 510400, loss = 2.8766809, reg_loss = 0.25333083, top_5_eval_accuracy = 0.8316
+Step 520408: cross_loss = 2.6306489, eval_accuracy = 0.59872, global_step = 520408, loss = 2.8768888, reg_loss = 0.24624045, top_5_eval_accuracy = 0.83034
+Step 530416: cross_loss = 2.6273556, eval_accuracy = 0.59764, global_step = 530416, loss = 2.8676815, reg_loss = 0.24032481, top_5_eval_accuracy = 0.83036
+Step ...
+Step 640504: cross_loss = 2.6256459, eval_accuracy = 0.6016, global_step = 640504, loss = 2.8403015, reg_loss = 0.21465822, top_5_eval_accuracy = 0.83146
+Step 690544: cross_loss = 2.618383, eval_accuracy = 0.60114, global_step = 690544, loss = 2.830918, reg_loss = 0.2125329, top_5_eval_accuracy = 0.83238
+Step ...
+Step 770608: cross_loss = 2.5176609, eval_accuracy = 0.62814, global_step = 770608, loss = 2.726573, reg_loss = 0.20891242, top_5_eval_accuracy = 0.84912
+Step 800632: cross_loss = 2.5032895, eval_accuracy = 0.63186, global_step = 800632, loss = 2.7081206, reg_loss = 0.20483306, top_5_eval_accuracy = 0.85116
+Step 830656: cross_loss = 2.4988241, eval_accuracy = 0.63288, global_step = 830656, loss = 2.6997647, reg_loss = 0.20093752, top_5_eval_accuracy = 0.8525
+Step 890704: cross_loss = 2.4922347, eval_accuracy = 0.63344, global_step = 890704, loss = 2.6858559, reg_loss = 0.19362226, top_5_eval_accuracy = 0.85288
+Step 910720: cross_loss = 2.492825, eval_accuracy = 0.634, global_step = 910720, loss = 2.6841137, reg_loss = 0.19128928, top_5_eval_accuracy = 0.85338
+Step 930736: cross_loss = 2.4890304, eval_accuracy = 0.636, global_step = 930736, loss = 2.6780517, reg_loss = 0.18901946, top_5_eval_accuracy = 0.85294
+Step 960760: cross_loss = 2.481349, eval_accuracy = 0.63608, global_step = 960760, loss = 2.6680186, reg_loss = 0.18666986, top_5_eval_accuracy = 0.85486
+Step 970768: cross_loss = 2.4814157, eval_accuracy = 0.63734, global_step = 970768, loss = 2.667957, reg_loss = 0.1865397, top_5_eval_accuracy = 0.85496
+Step 980776: cross_loss = 2.4803524, eval_accuracy = 0.63824, global_step = 980776, loss = 2.6667645, reg_loss = 0.18641053, top_5_eval_accuracy = 0.85552
+Step 1040824: cross_loss = 2.4784002, eval_accuracy = 0.63692, global_step = 1040824, loss = 2.6640427, reg_loss = 0.18564346, top_5_eval_accuracy = 0.85554
+Step 1050832: cross_loss = 2.4761298, eval_accuracy = 0.63696, global_step = 1050832, loss = 2.661644, reg_loss = 0.18551414, top_5_eval_accuracy = 0.85608
+Step 1060840: cross_loss = 2.4766333, eval_accuracy = 0.6366, global_step = 1060840, loss = 2.6620207, reg_loss = 0.18538713, top_5_eval_accuracy = 0.8564
+Step 1090864: cross_loss = 2.4777105, eval_accuracy = 0.63642, global_step = 1090864, loss = 2.662718, reg_loss = 0.18500565, top_5_eval_accuracy = 0.85562
+Step 1170928: cross_loss = 2.4756143, eval_accuracy = 0.63756, global_step = 1170928, loss = 2.659608, reg_loss = 0.18399389, top_5_eval_accuracy = 0.85582
+Step 1180936: cross_loss = 2.4759398, eval_accuracy = 0.63758, global_step = 1180936, loss = 2.659808, reg_loss = 0.18386713, top_5_eval_accuracy = 0.8557
+Step 1190944: cross_loss = 2.4759598, eval_accuracy = 0.63716, global_step = 1190944, loss = 2.6596997, reg_loss = 0.18374051, top_5_eval_accuracy = 0.85578
+Step 
+Step 
+Step 
+Step 
+Step 
+Step 
+Step 
+Step 

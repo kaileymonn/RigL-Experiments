@@ -65,8 +65,7 @@ flags.DEFINE_float(
     help=('Weight decay coefficiant for l2 regularization.'))
 flags.DEFINE_string('master', '', 'Master job.')
 flags.DEFINE_string('tpu_job_name', None, 'For complicated TensorFlowFlock')
-flags.DEFINE_integer(
-    'steps_per_checkpoint',
+flags.DEFINE_integer('steps_per_checkpoint', 
     default=1000,
     help=('Controls how often checkpoints are generated. More steps per '
           'checkpoint = higher utilization of TPU and generally higher '
@@ -333,8 +332,9 @@ def train_function(training_method, loss, cross_loss, reg_loss, output_dir, use_
         learning_rate = FLAGS.base_learning_rate * (FLAGS.train_batch_size / 256.0)
         optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
     else:
-        optimizer = tf.train.MomentumOptimizer(
-            learning_rate=learning_rate, momentum=FLAGS.momentum, use_nesterov=True)
+        optimizer = tf.train.MomentumOptimizer(learning_rate=learning_rate,
+                                               momentum=FLAGS.momentum, 
+                                               use_nesterov=True)
 
     if use_tpu:
         # use CrossShardOptimizer when using TPU.
@@ -461,7 +461,8 @@ def resnet_model_fn_w_pruning(features, labels, mode, params):
                 mobilenetv2_model.mobilenet_v2,
                 expansion_factor=FLAGS.expansion_factor)
         elif FLAGS.model_architecture == 'mobilenet_v1':
-            network_func = functools.partial(mobilenetv1_model.mobilenet_v1)
+            network_func = functools.partial(
+                mobilenetv1_model.mobilenet_v1)
         elif FLAGS.model_architecture == 'resnet':
             prune_first_layer = FLAGS.first_layer_sparsity != 0.
             network_func = functools.partial(
@@ -516,13 +517,13 @@ def resnet_model_fn_w_pruning(features, labels, mode, params):
         scratch_stripped = FLAGS.load_mask_dir.replace('/scratch', '')
         label_smoothing = float(scratch_stripped.split('/')[15])
         tf.logging.info('LABEL SMOOTHING USED: %.2f' % label_smoothing)
-    cross_loss = tf.losses.softmax_cross_entropy(
+    cross_loss = tf.compat.v1.losses.softmax_cross_entropy(
         logits=logits,
         onehot_labels=one_hot_labels,
         label_smoothing=label_smoothing)
 
     # Add regularization loss term
-    reg_loss = tf.losses.get_regularization_loss()
+    reg_loss = tf.compat.v1.losses.get_regularization_loss()
     loss = cross_loss + reg_loss
 
     host_call = None
@@ -541,17 +542,17 @@ def resnet_model_fn_w_pruning(features, labels, mode, params):
             eval_metrics = {}
             predictions = tf.cast(tf.argmax(logits, axis=1), tf.int32)
             in_top_5 = tf.cast(tf.nn.in_top_k(logits, labels, 5), tf.float32)
-            eval_metrics['top_5_eval_accuracy'] = tf.metrics.mean(in_top_5)
-            eval_metrics['cross_loss'] = tf.metrics.mean(cross_loss)
-            eval_metrics['reg_loss'] = tf.metrics.mean(reg_loss)
-            eval_metrics['eval_accuracy'] = tf.metrics.accuracy(
+            eval_metrics['top_5_eval_accuracy'] = tf.compat.v1.metrics.mean(in_top_5)
+            eval_metrics['cross_loss'] = tf.compat.v1.metrics.mean(cross_loss)
+            eval_metrics['reg_loss'] = tf.compat.v1.metrics.mean(reg_loss)
+            eval_metrics['eval_accuracy'] = tf.compat.v1.metrics.accuracy(
                 labels=labels, predictions=predictions)
 
             # If evaluating once lets also calculate sparsities.
             if FLAGS.mode == 'eval_once':
                 sparsity_summaries = utils.mask_summaries(pruning.get_masks())
                 # We call mean on a scalar to create tensor, update_op pairs.
-                sparsity_summaries = {k: tf.metrics.mean(v) for k, v
+                sparsity_summaries = {k: tf.compat.v1.metrics.mean(v) for k, v
                                     in sparsity_summaries.items()}
                 eval_metrics.update(sparsity_summaries)
             return eval_metrics
@@ -570,25 +571,24 @@ def resnet_model_fn_w_pruning(features, labels, mode, params):
         already_has_ckpt = model_dir and tf.train.latest_checkpoint(
             model_dir) is not None
         if already_has_ckpt:
-        tf.logging.info(
-            'Training already started on this model, not loading masks from'
-            'previously trained model')
-        return
+            tf.logging.info(
+                'Training already started on this model, not loading masks from'
+                'previously trained model')
+            return
 
-        reader = tf.train.NewCheckpointReader(ckpt_path)
+        reader = tf.compat.v1.train.NewCheckpointReader(ckpt_path)
         mask_names = reader.get_variable_to_shape_map().keys()
         mask_names = [x for x in mask_names if x.endswith('mask')]
 
         variable_map = {}
-        for var in tf.global_variables():
-        var_name = var.name.split(':')[0]
-        if var_name in mask_names:
-            tf.logging.info('Loading mask variable from checkpoint: %s', var_name)
-            variable_map[var_name] = var
-        elif var_name.endswith('mask'):
-            tf.logging.info('Cannot find mask variable in checkpoint, skipping: %s',
-                            var_name)
-        tf.train.init_from_checkpoint(ckpt_path, variable_map)
+        for var in tf.compat.v1.global_variables():
+            var_name = var.name.split(':')[0]
+            if var_name in mask_names:
+                tf.logging.info('Loading mask variable from checkpoint: %s', var_name)
+                variable_map[var_name] = var
+            elif var_name.endswith('mask'):
+                tf.logging.info('Cannot find mask variable in checkpoint, skipping: %s', var_name)
+        tf.compat.v1.train.init_from_checkpoint(ckpt_path, variable_map)
 
     def initialize_parameters_from_ckpt(ckpt_path):
         """Load parameters from an existing checkpoint."""
@@ -600,22 +600,21 @@ def resnet_model_fn_w_pruning(features, labels, mode, params):
                 'previously trained model')
             return
 
-        reader = tf.train.NewCheckpointReader(ckpt_path)
+        reader = tf.compat.v1.train.NewCheckpointReader(ckpt_path)
         param_names = reader.get_variable_to_shape_map().keys()
         param_names = [x for x in param_names if x.endswith(PARAM_SUFFIXES)]
 
         variable_map = {}
-        for var in tf.global_variables():
+        for var in tf.compat.v1.global_variables():
             var_name = var.name.split(':')[0]
             if var_name in param_names:
                 tf.logging.info('Loading parameter variable from checkpoint: %s',
                                 var_name)
                 variable_map[var_name] = var
             elif var_name.endswith(PARAM_SUFFIXES):
-                tf.logging.info(
-                    'Cannot find parameter variable in checkpoint, skipping: %s',
-                    var_name)
-        tf.train.init_from_checkpoint(ckpt_path, variable_map)
+                tf.logging.info('Cannot find parameter variable in checkpoint, skipping: %s',
+                                var_name)
+        tf.compat.v1.train.init_from_checkpoint(ckpt_path, variable_map)
 
     if (FLAGS.load_mask_dir and FLAGS.training_method not in ('snip', 'baseline')):
         def scaffold_fn():
@@ -674,17 +673,16 @@ class ExportModelHook(tf.train.SessionRunHook):
         # export saved model
         global_step = run_context.session.run(self.global_step)
         if global_step - self.last_export >= FLAGS.export_model_freq:
-        tf.logging.info(
-            'Export model for prediction (step={}) ...'.format(global_step))
+            tf.logging.info('Export model for prediction (step={}) ...'.format(global_step))
 
-        self.last_export = global_step
-        contrib_estimator.export_all_saved_models(
-            self.classifier, os.path.join(self.export_dir, str(global_step)), {
-                tf.estimator.ModeKeys.EVAL:
-                    self.supervised_input_receiver_fn,
-                tf.estimator.ModeKeys.PREDICT:
-                    imagenet_input.image_serving_input_fn
-            })
+            self.last_export = global_step
+            contrib_estimator.export_all_saved_models(
+                self.classifier, os.path.join(self.export_dir, str(global_step)), {
+                    tf.estimator.ModeKeys.EVAL:
+                        self.supervised_input_receiver_fn,
+                    tf.estimator.ModeKeys.PREDICT:
+                        imagenet_input.image_serving_input_fn
+                })
 
 
 def main(argv):
@@ -783,7 +781,7 @@ def main(argv):
                     break
 
             except tf.errors.NotFoundError:
-                logging('Checkpoint no longer exists,skipping checkpoint.')
+                logging.warning('Checkpoint no longer exists,skipping checkpoint.')
 
     else:
         global_step = estimator._load_global_step_from_checkpoint_dir(output_dir)
@@ -802,12 +800,10 @@ def main(argv):
             tf.logging.info('start training and eval...')
 
             while global_step < FLAGS.train_steps:
-                next_checkpoint = min(global_step + FLAGS.steps_per_eval,
-                                    FLAGS.train_steps)
-                classifier.train(
-                    input_fn=imagenet_train.input_fn, max_steps=next_checkpoint)
+                next_checkpoint = min(global_step + FLAGS.steps_per_eval, FLAGS.train_steps)
+                classifier.train(input_fn=imagenet_train.input_fn, max_steps=next_checkpoint)
                 global_step = next_checkpoint
-                logging('Completed training up to step :', global_step)
+                logging.info('Completed training up to step: {}'.format(global_step))
                 classifier.evaluate(input_fn=imagenet_eval.input_fn, steps=eval_steps)
 
 

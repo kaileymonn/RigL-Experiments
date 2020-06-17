@@ -8,4 +8,5 @@ conda_env/
 rigl/__pycache__/*
 rigl/tpu_dependencies/__pycache__/
 *saves/
-stanford_dog_120/
+datasets/
+experiments/
