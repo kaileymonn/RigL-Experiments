@@ -164,8 +164,8 @@ flags.DEFINE_bool('use_batch_statistics', False,
 flags.DEFINE_bool('eval_on_train', False,
                   'If True the evaluation is made on training set.')
 flags.DEFINE_enum(
-    'mode', 'train', ('train_and_eval', 'train', 'eval', 'eval_once'),
-    'One of {"train_and_eval", "train", "eval"}.')
+    'mode', 'train', ('train_and_eval', 'train', 'eval', 'eval_once', 'export_checkpoint'),
+    'One of {"train_and_eval", "train", "eval", "export_checkpoint"}.')
 flags.DEFINE_integer('export_model_freq', 2502,
                      'The rate at which estimator exports the model.')
 
@@ -472,7 +472,10 @@ def resnet_model_fn_w_pruning(features, labels, mode, params):
                 end_sparsity=FLAGS.end_sparsity,
                 prune_first_layer=prune_first_layer)
         else:
-            raise ValueError('Unknown archiecture ' + FLAGS.archiecture)
+            raise ValueError('Unknown architecture ' + FLAGS.model_architecture)
+        
+        # Get model 'function' that takes in `inputs` and `is_training` and 
+        # returns the output `Tensor` of the model
         prune_last_layer = FLAGS.last_layer_sparsity != 0.
         network = network_func(
             num_classes=FLAGS.num_label_classes,
@@ -793,7 +796,17 @@ def main(argv):
         export_hook = ExportModelHook(cpu_classifier, export_dir)
         hooks = [export_hook]
 
-        if FLAGS.mode == 'train':
+        if FLAGS.mode == 'export_checkpoint':
+            tf.logging.info('start exporting checkpoint...')
+            exported_to_dir = cpu_classifier.experimental_export_all_saved_models(
+                export_dir,
+                {
+                    tf.estimator.ModeKeys.EVAL: export_hook.supervised_input_receiver_fn,
+                    # tf.estimator.ModeKeys.PREDICT: imagenet_input.image_serving_input_fn
+                }
+            )
+            tf.logging.info('exported SavedModel to directory: %s' % exported_to_dir)
+        elif FLAGS.mode == 'train':
             tf.logging.info('start training...')
             classifier.train(
                 input_fn=imagenet_train.input_fn,
